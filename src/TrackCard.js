@@ -17,6 +17,11 @@ export default class TrackCard extends Component {
     keepRunning: false
   };
 
+  constructor(props) {
+    super(props);
+    this.textAreaRef = React.createRef();
+  }
+
   runOnce = async () => {
     // Save these locally so we only have to do one final setState
     let { metaState, ptr, pc, timeBit, loopStack } = this.state;
@@ -56,15 +61,17 @@ export default class TrackCard extends Component {
         break;
         "";
       case ",":
-        await sleep(timeBit * 1000);
+        if (this.state.keepRunning) await sleep(timeBit * 1000); // Don't sleep if debugging
         break;
       case ".":
         MIDI.noteOn(0, metaState[ptr], 127, 0);
         MIDI.noteOff(0, metaState[ptr], timeBit);
-        await sleep(timeBit * 1000);
+        if (this.state.keepRunning) await sleep(timeBit * 1000); // Don't sleep if debugging
         break;
     }
     pc += 1;
+    this.textAreaRef.current.focus();
+    this.textAreaRef.current.setSelectionRange(pc, pc + 1);
     await this.setState({
       metaState,
       ptr,
@@ -119,6 +126,7 @@ export default class TrackCard extends Component {
         <div className="card-body">
           <textarea
             className="bg-dark text-white p-2 code"
+            ref={this.textAreaRef}
             value={this.code}
             onKeyUp={event => this.setState({ code: event.target.value })}
           />
