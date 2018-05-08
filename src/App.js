@@ -3,6 +3,7 @@ import Navbar from "./Navbar.js";
 import "./App.css";
 import TwoColumnLayout from "./TwoColumnLayout";
 import Help from "./Help";
+import TrackCard from "./TrackCard";
 
 export default class App extends Component {
   state = {
@@ -19,8 +20,7 @@ export default class App extends Component {
           showSidebar={this.state.sidebarVisible}
           sidebar={<Help />}
         >
-          <p>memes!</p>
-          <p>two memes!</p>
+          <TrackCard />
         </TwoColumnLayout>
       </div>
     );
