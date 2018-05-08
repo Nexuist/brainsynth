@@ -5,6 +5,7 @@ function sleep(ms) {
 }
 
 const MIDI = window.MIDI;
+const MAX_LOOP_ITERATIONS = 255;
 
 export default class TrackCard extends Component {
   state = {
@@ -14,6 +15,7 @@ export default class TrackCard extends Component {
     pc: 0, // Program counter
     timeBit: 0.25, // Special bit for time delays
     loopStack: [], // Keep track of where loops start so we can reset the PC to them
+    loopIterations: 0, // Keep track of how many times a loop has run to prevent infinite loops
     keepRunning: false
   };
 
@@ -24,7 +26,10 @@ export default class TrackCard extends Component {
 
   runOnce = async () => {
     // Save these locally so we only have to do one final setState
-    let { metaState, ptr, pc, timeBit, loopStack } = this.state;
+    let { metaState, ptr, pc, timeBit, loopStack, loopIterations } = this.state;
+    // Select the current instruction
+    this.textAreaRef.current.focus();
+    this.textAreaRef.current.setSelectionRange(pc, pc + 1);
     switch (this.state.code[this.state.pc]) {
       case ">":
         ptr += 1;
@@ -46,10 +51,17 @@ export default class TrackCard extends Component {
         loopStack = [pc, ...loopStack];
         break;
       case "]":
+        if (loopIterations >= MAX_LOOP_ITERATIONS) {
+          this.reset();
+          alert("EXECUTION HALTED to avoid infinite loop.");
+          return;
+        }
         if (metaState[ptr] == 0) {
           loopStack.shift(); // Remove first element
+          loopIterations = 0;
         } else {
-          pc = loopStack[0] - 1; // Because it'll get 1 added later
+          loopIterations += 1;
+          pc = loopStack[0]; // Because it'll get 1 added later, and we want to start right after the [
         }
         break;
       case "^":
@@ -70,14 +82,13 @@ export default class TrackCard extends Component {
         break;
     }
     pc += 1;
-    this.textAreaRef.current.focus();
-    this.textAreaRef.current.setSelectionRange(pc, pc + 1);
     await this.setState({
       metaState,
       ptr,
       pc,
       timeBit,
-      loopStack
+      loopStack,
+      loopIterations
     });
   };
 
@@ -101,6 +112,7 @@ export default class TrackCard extends Component {
       pc: 0,
       timeBit: 0.25,
       loopStack: [],
+      loopIterations: 0,
       keepRunning: false
     });
   };
