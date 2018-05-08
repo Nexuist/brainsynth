@@ -8,6 +8,7 @@
 
 # production
 /build
+/public/soundfont
 
 # misc
 .DS_Store

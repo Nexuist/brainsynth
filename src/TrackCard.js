@@ -4,6 +4,8 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+const MIDI = window.MIDI;
+
 export default class TrackCard extends Component {
   state = {
     metaState: new Array(30).fill(0),
@@ -50,9 +52,15 @@ export default class TrackCard extends Component {
         break;
       case "v":
         timeBit -= 0.25;
+        if (timeBit <= 0) timeBit = 0.25;
         break;
         "";
       case ",":
+        await sleep(timeBit * 1000);
+        break;
+      case ".":
+        MIDI.noteOn(0, metaState[ptr], 127, 0);
+        MIDI.noteOff(0, metaState[ptr], timeBit);
         await sleep(timeBit * 1000);
         break;
     }
@@ -98,7 +106,7 @@ export default class TrackCard extends Component {
             <tbody>
               <tr>
                 <td>{this.state.timeBit}</td>
-                <td class="column-spacer" />
+                <td className="column-spacer" />
                 {this.state.metaState.map((val, i) => (
                   <td key={i} className={this.state.ptr === i ? "bg-dark" : ""}>
                     {val}
@@ -142,7 +150,11 @@ export default class TrackCard extends Component {
             >
               <i className="fas fa-angle-right" />
             </button>
-            <button type="button" className="btn btn-dark">
+            <button
+              type="button"
+              className="btn btn-dark"
+              onClick={() => MIDI.noteOn(0, 21, 127, 0)}
+            >
               <i className="fas fa-angle-double-right" />
             </button>
             <button
