@@ -139,8 +139,19 @@ export default class TrackCard extends Component {
         <div className="card-body">
           <textarea
             className="bg-dark text-white p-2 code"
+            rows={10}
             ref={this.textAreaRef}
             value={this.code}
+            defaultValue={`setup the notes
+>+++++[<+++++>-] 25
+>+++++[<+++++>-] +++[<+++++>-] 40
+>+++++[<+++++>-] +++[<+++++>-]+++[<+++++>-] 55
+>+++++[<+++++>-] +++[<+++++>-]+++[<+++++>-]+++[<+++>-]<-> 63
+>+++++[<+++++>-] +++[<+++++>-]+++[<+++++>-]+++[<+++>-]<->+++[<+++++>-] 78
+>+++++[<+++++>-] +++[<+++++>-]+++[<+++++>-]+++[<+++>-]<->+++[<+++++>-]+++[<+++++>-] <-> 92
+>+++++[<+++++>-] +++[<+++++>-]+++[<+++++>-]+++[<+++>-]<->+++[<+++++>-]+++[<+++++>-] <++++++ 99
+play hot cross buns
+^^<<.,<.,<.,>>.<.<....>....>.<.<.`}
             onKeyUp={event => this.setState({ code: event.target.value })}
           />
         </div>
