@@ -93,6 +93,16 @@ const notes = [
   "Gb7"
 ];
 
+let octaveNotes = {
+  A: 25,
+  B: 40,
+  C: 55,
+  D: 63,
+  E: 78,
+  F: 92,
+  G: 99
+};
+
 export default class DemoPlayerCard extends Component {
   play = note => {
     MIDI.noteOn(0, note, 127, 0);
@@ -130,20 +140,35 @@ export default class DemoPlayerCard extends Component {
               </tr>
             </tbody>
           </table>
-          {/* <div className="btn-group btn-group-sm" role="group">
-            {Array.from(Array(89).keys())
-              .map(x => x + 21)
-              .map(i => (
-                <button
-                  type="button"
-                  className="btn btn-default"
-                  key={i}
-                  onClick={() => this.play(i)}
-                >
-                  {i}
-                </button>
-              ))}
-          </div> */}
+        </div>
+        <div className="card-footer">
+          <table
+            className="table table-sm text-center mb-0 mt-0"
+            style={{ width: "25%" }}
+          >
+            <tbody>
+              <tr>
+                {Object.keys(octaveNotes).map((key, i) => (
+                  <td key={i} className="border-0">
+                    <button
+                      type="button"
+                      className="btn btn-outline-light btn-sm"
+                      onClick={() => this.play(octaveNotes[key])}
+                    >
+                      {key + "4"}
+                    </button>
+                  </td>
+                ))}
+              </tr>
+              <tr>
+                {Object.keys(octaveNotes).map((key, i) => (
+                  <td key={i} className="border-0">
+                    {octaveNotes[key]}
+                  </td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     );
