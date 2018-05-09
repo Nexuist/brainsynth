@@ -56,7 +56,7 @@ export default class TrackCard extends Component {
           alert("EXECUTION HALTED to avoid infinite loop.");
           return;
         }
-        if (metaState[ptr] == 0) {
+        if (metaState[ptr] === 0) {
           loopStack.shift(); // Remove first element
           loopIterations = 0;
         } else {
@@ -71,7 +71,6 @@ export default class TrackCard extends Component {
         timeBit -= 0.25;
         if (timeBit <= 0) timeBit = 0.25;
         break;
-        "";
       case ",":
         if (this.state.keepRunning) await sleep(timeBit * 1000); // Don't sleep if debugging
         break;
@@ -79,6 +78,8 @@ export default class TrackCard extends Component {
         MIDI.noteOn(0, metaState[ptr], 127, 0);
         MIDI.noteOff(0, metaState[ptr], timeBit);
         if (this.state.keepRunning) await sleep(timeBit * 1000); // Don't sleep if debugging
+        break;
+      default:
         break;
     }
     pc += 1;
@@ -119,7 +120,7 @@ export default class TrackCard extends Component {
 
   render() {
     return (
-      <div className="card bg-secondary text-white">
+      <div className={`card bg-secondary text-white ${this.props.className}`}>
         <div className="card-header table-responsive">
           <table className="table table-bordered table-sm text-center mb-0">
             <tbody>

@@ -4,6 +4,7 @@ import "./App.css";
 import TwoColumnLayout from "./TwoColumnLayout";
 import Help from "./Help";
 import TrackCard from "./TrackCard";
+import DemoPlayerCard from "./DemoPlayerCard";
 
 const MIDI = window.MIDI;
 const $ = window.$;
@@ -16,7 +17,7 @@ export default class App extends Component {
     $('[data-toggle="popover"]').popover();
     MIDI.loadPlugin({
       soundfontUrl: "/soundfont/",
-      instrument: "acoustic_grand_piano",
+      instruments: ["acoustic_grand_piano", "synth_drum"],
       onprogress: function(state, progress) {
         console.log(state, progress);
       },
@@ -36,6 +37,7 @@ export default class App extends Component {
           showSidebar={this.state.sidebarVisible}
           sidebar={<Help />}
         >
+          <DemoPlayerCard className="mb-3" />
           <TrackCard />
         </TwoColumnLayout>
       </div>
