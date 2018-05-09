@@ -6,13 +6,14 @@ import Help from "./Help";
 import TrackCard from "./TrackCard";
 
 const MIDI = window.MIDI;
+const $ = window.$;
 
 export default class App extends Component {
   state = {
     sidebarVisible: true
   };
   componentDidMount() {
-    console.log("mounted!");
+    $('[data-toggle="popover"]').popover();
     MIDI.loadPlugin({
       soundfontUrl: "/soundfont/",
       instrument: "acoustic_grand_piano",

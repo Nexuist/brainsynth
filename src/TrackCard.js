@@ -148,6 +148,10 @@ export default class TrackCard extends Component {
             <button
               type="button"
               className="btn btn-success"
+              data-toggle="popover"
+              data-trigger="hover"
+              title="Play / Pause"
+              data-content="Start or stop the program running at regular (live) speed."
               onClick={() =>
                 this.state.keepRunning
                   ? this.setState({ keepRunning: false })
@@ -160,26 +164,34 @@ export default class TrackCard extends Component {
                 }
               />
             </button>
-            <button type="button" className="btn btn-dark">
+            {/* <button type="button" className="btn btn-dark">
               <i className="fas fa-angle-left" />
-            </button>
+            </button> */}
             <button
               type="button"
               className="btn btn-dark"
+              data-toggle="popover"
+              data-trigger="hover"
+              title="Run Once"
+              data-content="Run the current instruction and move to the next once,"
               onClick={() => this.runOnce()}
             >
               <i className="fas fa-angle-right" />
             </button>
-            <button
+            {/* <button
               type="button"
               className="btn btn-dark"
               onClick={() => MIDI.noteOn(0, 21, 127, 0)}
             >
               <i className="fas fa-angle-double-right" />
-            </button>
+            </button> */}
             <button
               type="button"
               className="btn btn-danger"
+              data-toggle="popover"
+              data-trigger="hover"
+              title="Reset"
+              data-content="Zero everything out so you can run your code again."
               onClick={() => this.reset()}
             >
               <i className="fas fa-stop" />
