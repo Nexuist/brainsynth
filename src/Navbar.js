@@ -8,7 +8,7 @@ export default class Navbar extends Component {
           <a className="navbar-brand" href="/">
             Brainsynth
           </a>
-          <span className="navbar-text">Demo v0.1</span>
+          <span className="navbar-text">Demo v0.5</span>
         </nav>
         <nav className="navbar navbar-dark bg-dark" id="navbar-too">
           <span className="navbar-text">Your Song Name</span>

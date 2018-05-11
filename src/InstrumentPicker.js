@@ -36,26 +36,24 @@ export default class InstrumentPicker extends Component {
 
   render() {
     return (
-      <div>
-        <div className="input-group mb-3">
-          <div className="input-group-prepend">
-            <label className="input-group-text" htmlFor="inputGroupSelect01">
-              Instrument
-            </label>
-          </div>
-          <select
-            className="custom-select"
-            id="inputGroupSelect01"
-            onChange={event => this.changeInstrument(event.target.value)}
-            value={this.state.instrument}
-          >
-            {instruments.map((instrument, i) => (
-              <option key={i} value={instrument}>
-                {instrument}
-              </option>
-            ))}
-          </select>
+      <div className={`input-group ${this.props.className}`}>
+        <div className="input-group-prepend">
+          <label className="input-group-text" htmlFor="inputGroupSelect01">
+            Instrument
+          </label>
         </div>
+        <select
+          className="custom-select"
+          id="inputGroupSelect01"
+          onChange={event => this.changeInstrument(event.target.value)}
+          value={this.state.instrument}
+        >
+          {instruments.map((instrument, i) => (
+            <option key={i} value={instrument}>
+              {instrument}
+            </option>
+          ))}
+        </select>
       </div>
     );
   }

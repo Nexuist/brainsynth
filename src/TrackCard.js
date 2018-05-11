@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import InstrumentPicker from "./InstrumentPicker";
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -10,7 +11,16 @@ const MAX_LOOP_ITERATIONS = 255;
 export default class TrackCard extends Component {
   state = {
     metaState: new Array(30).fill(0),
-    code: "",
+    code: `setup the notes
+    >+++++[<+++++>-] 25
+    >+++++[<+++++>-] +++[<+++++>-] 40
+    >+++++[<+++++>-] +++[<+++++>-]+++[<+++++>-] 55
+    >+++++[<+++++>-] +++[<+++++>-]+++[<+++++>-]+++[<+++>-]<-> 63
+    >+++++[<+++++>-] +++[<+++++>-]+++[<+++++>-]+++[<+++>-]<->+++[<+++++>-] 78
+    >+++++[<+++++>-] +++[<+++++>-]+++[<+++++>-]+++[<+++>-]<->+++[<+++++>-]+++[<+++++>-] <-> 92
+    >+++++[<+++++>-] +++[<+++++>-]+++[<+++++>-]+++[<+++>-]<->+++[<+++++>-]+++[<+++++>-] <++++++ 99
+    play hot cross buns
+    ^^<<.,<.,<.,>>.<.<....>....>.<.<.`,
     ptr: 0, // Pointer
     pc: 0, // Program counter
     timeBit: 0.25, // Special bit for time delays
@@ -75,8 +85,8 @@ export default class TrackCard extends Component {
         if (this.state.keepRunning) await sleep(timeBit * 1000); // Don't sleep if debugging
         break;
       case ".":
-        MIDI.noteOn(0, metaState[ptr], 127, 0);
-        MIDI.noteOff(0, metaState[ptr], timeBit);
+        MIDI.noteOn(1, metaState[ptr], 127, 0);
+        MIDI.noteOff(1, metaState[ptr], timeBit);
         if (this.state.keepRunning) await sleep(timeBit * 1000); // Don't sleep if debugging
         break;
       default:
@@ -141,73 +151,66 @@ export default class TrackCard extends Component {
             className="bg-dark text-white p-2 code"
             rows={10}
             ref={this.textAreaRef}
-            value={this.code}
-            defaultValue={`setup the notes
->+++++[<+++++>-] 25
->+++++[<+++++>-] +++[<+++++>-] 40
->+++++[<+++++>-] +++[<+++++>-]+++[<+++++>-] 55
->+++++[<+++++>-] +++[<+++++>-]+++[<+++++>-]+++[<+++>-]<-> 63
->+++++[<+++++>-] +++[<+++++>-]+++[<+++++>-]+++[<+++>-]<->+++[<+++++>-] 78
->+++++[<+++++>-] +++[<+++++>-]+++[<+++++>-]+++[<+++>-]<->+++[<+++++>-]+++[<+++++>-] <-> 92
->+++++[<+++++>-] +++[<+++++>-]+++[<+++++>-]+++[<+++>-]<->+++[<+++++>-]+++[<+++++>-] <++++++ 99
-play hot cross buns
-^^<<.,<.,<.,>>.<.<....>....>.<.<.`}
-            onKeyUp={event => this.setState({ code: event.target.value })}
+            value={this.state.code}
+            onChange={event => this.setState({ code: event.target.value })}
           />
         </div>
         <div className="card-footer">
-          <div className="btn-group" role="group">
-            <button
-              type="button"
-              className="btn btn-success"
-              data-toggle="popover"
-              data-trigger="hover"
-              title="Play / Pause"
-              data-content="Start or stop the program running at regular (live) speed."
-              onClick={() =>
-                this.state.keepRunning
-                  ? this.setState({ keepRunning: false })
-                  : this.run()
-              }
-            >
-              <i
-                className={
-                  "fas fa-" + (this.state.keepRunning ? "pause" : "play")
+          <div className="row">
+            <div className="btn-group col-sm-5" role="group">
+              <button
+                type="button"
+                className="btn btn-success"
+                data-toggle="popover"
+                data-trigger="hover"
+                title="Play / Pause"
+                data-content="Start or stop the program running at regular (live) speed."
+                onClick={() =>
+                  this.state.keepRunning
+                    ? this.setState({ keepRunning: false })
+                    : this.run()
                 }
-              />
-            </button>
-            {/* <button type="button" className="btn btn-dark">
+              >
+                <i
+                  className={
+                    "fas fa-" + (this.state.keepRunning ? "pause" : "play")
+                  }
+                />
+              </button>
+              {/* <button type="button" className="btn btn-dark">
               <i className="fas fa-angle-left" />
             </button> */}
-            <button
-              type="button"
-              className="btn btn-dark"
-              data-toggle="popover"
-              data-trigger="hover"
-              title="Run Once"
-              data-content="Run the current instruction and move to the next once,"
-              onClick={() => this.runOnce()}
-            >
-              <i className="fas fa-angle-right" />
-            </button>
-            {/* <button
+              <button
+                type="button"
+                className="btn btn-dark"
+                data-toggle="popover"
+                data-trigger="hover"
+                title="Run Once"
+                data-content="Run the current instruction and move to the next once,"
+                onClick={() => this.runOnce()}
+              >
+                <i className="fas fa-angle-right" />
+              </button>
+              {/* <button
               type="button"
               className="btn btn-dark"
               onClick={() => MIDI.noteOn(0, 21, 127, 0)}
             >
               <i className="fas fa-angle-double-right" />
             </button> */}
-            <button
-              type="button"
-              className="btn btn-danger"
-              data-toggle="popover"
-              data-trigger="hover"
-              title="Reset"
-              data-content="Zero everything out so you can run your code again."
-              onClick={() => this.reset()}
-            >
-              <i className="fas fa-stop" />
-            </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                data-toggle="popover"
+                data-trigger="hover"
+                title="Reset"
+                data-content="Zero everything out so you can run your code again."
+                onClick={() => this.reset()}
+              >
+                <i className="fas fa-stop" />
+              </button>
+            </div>
+            <InstrumentPicker className="col-sm-7" channel={1} />
           </div>
         </div>
       </div>

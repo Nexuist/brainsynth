@@ -21,7 +21,7 @@ export default class DemoPlayer extends Component {
   render() {
     return (
       <Fragment>
-        <InstrumentPicker channel={this.props.channel} />
+        <InstrumentPicker channel={this.props.channel} className="mb-3" />
         <BootstrapTabPills
           titles={["Octaves", "All", "None"]}
           content={[

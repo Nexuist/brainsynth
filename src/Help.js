@@ -7,7 +7,7 @@ export default class Help extends Component {
       <div>
         <h3 className="mb-3">Demo Player</h3>
         <DemoPlayer channel={0} />
-        <h3>Introduction</h3>
+        <h3 className="mt-3">Introduction</h3>
       </div>
     );
   }
