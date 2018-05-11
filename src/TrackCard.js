@@ -83,7 +83,7 @@ export default class TrackCard extends Component {
         break;
     }
     pc += 1;
-    await this.setState({
+    this.setState({
       metaState,
       ptr,
       pc,

@@ -1,30 +1,29 @@
 import React, { Component } from "react";
 import Navbar from "./Navbar.js";
 import "./App.css";
-import TwoColumnLayout from "./TwoColumnLayout";
+import BootstrapTwoColumnLayout from "./BootstrapTwoColumnLayout";
 import Help from "./Help";
 import TrackCard from "./TrackCard";
-import DemoPlayerCard from "./DemoPlayerCard";
-
-const MIDI = window.MIDI;
-const $ = window.$;
+import { instruments, $, MIDI } from "./Constants";
 
 export default class App extends Component {
   state = {
     sidebarVisible: true
   };
   componentDidMount() {
-    $('[data-toggle="popover"]').popover();
-    MIDI.loadPlugin({
-      soundfontUrl: "/soundfont/",
-      instrument: "acoustic_grand_piano",
-      onprogress: function(state, progress) {
-        console.log(state, progress);
-      },
-      onsuccess: function() {
-        MIDI.setVolume(0, 127);
-      }
-    });
+    $('[data-toggle="popover"]').popover(); // Apparently you need jQuery for this :(
+    // MIDI.loadPlugin({
+    //   soundfontUrl: "http://gleitz.github.io/midi-js-soundfonts/FluidR3_GM/",
+    //   instrument: "taiko_drum",
+    //   onprogress: function(state, progress) {
+    //     console.log(state, progress);
+    //   },
+    //   onsuccess: function() {
+    //     MIDI.setVolume(0, 127);
+    //     MIDI.programChange(0, MIDI.GM.byName["taiko_drum"].number);
+    //     console.log("ready");
+    //   }
+    // });
   }
   render() {
     return (
@@ -33,13 +32,13 @@ export default class App extends Component {
           helpChecked={this.state.sidebarVisible}
           helpToggled={val => this.setState({ sidebarVisible: val })}
         />
-        <TwoColumnLayout
+        <BootstrapTwoColumnLayout
           showSidebar={this.state.sidebarVisible}
           sidebar={<Help />}
         >
           <TrackCard />
-          <DemoPlayerCard className="mt-3" />
-        </TwoColumnLayout>
+          {/* <DemoPlayerCard className="mt-3" /> */}
+        </BootstrapTwoColumnLayout>
       </div>
     );
   }
