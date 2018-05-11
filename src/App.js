@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import Navbar from "./Navbar.js";
+import Navbar from "./components/Navbar.js";
 import "./App.css";
-import BootstrapTwoColumnLayout from "./BootstrapTwoColumnLayout";
-import Help from "./Help";
-import TrackCard from "./TrackCard";
+import BootstrapTwoColumnLayout from "./components/BootstrapTwoColumnLayout";
+import Help from "./components/Help";
+import TrackCard from "./components/TrackCard";
 
 export default class App extends Component {
   state = {

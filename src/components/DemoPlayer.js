@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { MIDI, allNotes, octaveNotes } from "./Constants";
+import { MIDI, allNotes, octaveNotes } from "../Constants";
 import BootstrapTabPills from "./BootstrapTabPills";
 import InstrumentPicker from "./InstrumentPicker";
 

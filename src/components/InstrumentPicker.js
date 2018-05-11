@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { instruments, MIDI } from "./Constants";
+import { instruments, MIDI } from "../Constants";
 
 export default class InstrumentPicker extends Component {
   state = {
