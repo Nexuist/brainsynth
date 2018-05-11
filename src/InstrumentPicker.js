@@ -3,11 +3,15 @@ import { instruments, MIDI } from "./Constants";
 
 export default class InstrumentPicker extends Component {
   state = {
-    instrument: "bird_tweet"
+    instrument: "acoustic_grand_piano",
+    loading: false
   };
 
   loadNewInstrument = instrument => {
     console.log(`Loading ${instrument}`);
+    this.setState({
+      loading: true
+    });
     MIDI.loadPlugin({
       soundfontUrl: "http://gleitz.github.io/midi-js-soundfonts/FluidR3_GM/",
       instrument: instrument,
@@ -19,6 +23,9 @@ export default class InstrumentPicker extends Component {
           this.props.channel,
           MIDI.GM.byName[instrument].number
         );
+        this.setState({
+          loading: false
+        });
       }
     });
   };
@@ -54,6 +61,13 @@ export default class InstrumentPicker extends Component {
             </option>
           ))}
         </select>
+        {this.state.loading ? (
+          <div className="input-group-append">
+            <button className="btn btn-secondary" disabled>
+              <i className="fas fa-spinner fa-spin" />
+            </button>
+          </div>
+        ) : null}
       </div>
     );
   }
